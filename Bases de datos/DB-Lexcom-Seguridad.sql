@@ -1,9 +1,16 @@
 CREATE DATABASE db_lexcom_seguridad CHARACTER SET utf8mb4;
+-- *******************************************************************************
+--  INDICAMOS A MYSQL QUE UTILIZAREMOS LA BASE DE DATOS: db_lexcom_seguridad.    *
+-- *******************************************************************************
 USE db_lexcom_seguridad;
-
+-- *******************************************************************************
+--  BORRAMOS TODAS LAS TABLAS DE LA BASE DE DATOS: db_lexcom_seguridad.          *
+-- *******************************************************************************
 DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS rol;
-
+-- *******************************************************************************
+--  CREAMOS TODAS LAS TABLAS DEL ESQUEMA: db_lexcom_seguridad.                   *
+-- *******************************************************************************
 CREATE TABLE rol (
 	id_rol BIGINT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
@@ -22,15 +29,22 @@ CREATE TABLE usuario (
     CONSTRAINT pk_usuario PRIMARY KEY (id_usuario),
     CONSTRAINT fk_usuario_1 FOREIGN KEY (id_rol) REFERENCES rol (id_rol)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
-
-
-INSERT INTO rol (id_rol, nombre, descripcion) VALUES (1, 'ROL-ADMINISTRADOR', 'Rol creado por el sistema.');
+-- *******************************************************************************
+--  SE LLENAN LAS TABLAS CON VALORES INICIALES DE CONFIGURACIÓN.                 *
+-- *******************************************************************************
+INSERT INTO rol (id_rol, nombre, descripcion) VALUES 
+(1, 'ROL-ADMINISTRADOR', 'Rol creado por el sistema.');
 
 INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, descripcion, id_rol) 
 VALUES (1, 'Edvin Francisco Navas Mejía.', 'enavas', SHA2('Edfr@2021', 512), 'edvin.navas@gmail.com', 'Prueba registro de usuario con contraseña SHA-2.', 1);
 
+commit;
+-- *******************************************************************************
+--  CONSULTA DE TABLAS DEL ESQUEMA: db_lexcom_seguridad.                         *
+-- *******************************************************************************
+SELECT r.* FROM rol r;
+SELECT u.* FROM usuario u;
 
 SELECT u.* FROM usuario u WHERE u.nombre_usuario = 'enavas' AND TRIM(CONVERT(u.contrasena USING utf8mb4)) = TRIM(SHA2('Edfr@2021', 512));
-
-SELECT CONVERT(COMPRESS('Edfr@2021') USING utf8mb4) TEXTO_COMPRESS;
-SELECT CONVERT(UNCOMPRESS(COMPRESS('Edfr@2021')) USING utf8mb4) TEXTO_COMPRESS;
+-- SELECT CONVERT(COMPRESS('Edfr@2021') USING utf8mb4) TEXTO_COMPRESS;
+-- SELECT CONVERT(UNCOMPRESS(COMPRESS('Edfr@2021')) USING utf8mb4) TEXTO_COMPRESS;

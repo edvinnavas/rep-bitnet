@@ -1,5 +1,10 @@
+-- *******************************************************************************
+--  INDICAMOS A MYSQL QUE UTILIZAREMOS LA BASE DE DATOS: db_lexcom_negocio.      *
+-- *******************************************************************************
 USE db_lexcom_negocio;
-
+-- *******************************************************************************
+--  BORRAMOS TODAS LAS TABLAS DE LA BASE DE DATOS: db_lexcom_negocio.            *
+-- *******************************************************************************
 DROP TABLE IF EXISTS expediente;
 DROP TABLE IF EXISTS estado_estatus_judicial;
 DROP TABLE IF EXISTS estado_estatus_extrajudicial;
@@ -20,7 +25,9 @@ DROP TABLE IF EXISTS departamento;
 DROP TABLE IF EXISTS pais;
 DROP TABLE IF EXISTS estado_civil;
 DROP TABLE IF EXISTS genero;
-
+-- *******************************************************************************
+--  CREAMOS TODAS LAS TABLAS DEL ESQUEMA: db_lexcom_negocio.                     *
+-- *******************************************************************************
 CREATE TABLE genero (
 	id_genero BIGINT NOT NULL,
     nombre VARCHAR(200) NOT NULL,
@@ -212,26 +219,38 @@ CREATE TABLE expediente (
     CONSTRAINT fk_expediente_5 FOREIGN KEY (id_estado_extrajudicial, id_estatus_extrajudicial) REFERENCES estado_estatus_extrajudicial (id_estado_extrajudicial, id_estatus_extrajudicial),
     CONSTRAINT fk_expediente_6 FOREIGN KEY (id_estado_judicial, id_estatus_judicial) REFERENCES estado_estatus_judicial (id_estado_judicial, id_estatus_judicial)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+-- *******************************************************************************
+--  SE LLENAN LAS TABLAS CON VALORES INICIALES DE CONFIGURACIÓN.                 *
+-- *******************************************************************************
+INSERT INTO genero (id_genero, nombre, descripcion) VALUES 
+(1, 'MASCULINO', 'Valor creador por el sistema.'),
+(2, 'FEMENINO', 'Valor creador por el sistema.');
 
-SELECT g.* FROM genero g;
-SELECT ec.* FROM estado_civil ec;
-SELECT p.* FROM pais p;
-SELECT d.* FROM departamento d;
-SELECT m.* FROM municipio m;
-SELECT m.* FROM moneda m;
-SELECT tt.* FROM tipo_telefono tt;
-SELECT d.* FROM deudor d;
-SELECT lt.* FROM libreta_telefonica lt;
-SELECT lc.* FROM libreta_correo lc;
-SELECT c.* FROM corporacion c;
-SELECT a.* FROM actor a;
-SELECT g.* FROM garantia g;
-SELECT ee.* FROM estado_extrajudicial ee;
-SELECT ee.* FROM estatus_extrajudicial ee;
-SELECT ej.* FROM estado_judicial ej;
-SELECT ej.* FROM estatus_judicial ej;
-SELECT ese.* FROM estado_estatus_extrajudicial ese;
-SELECT eej.* FROM estado_estatus_judicial eej;
-SELECT e.* FROM expediente e;
+INSERT INTO estado_civil (id_estado_civil, nombre, descripcion) VALUES 
+(1, 'SOLTERO', 'Valor creador por el sistema.'),
+(2, 'CASADO', 'Valor creador por el sistema.');
 
 COMMIT;
+-- *******************************************************************************
+--  CONSULTA DE TABLAS DEL ESQUEMA: db_lexcom_negocio.                           *
+-- *******************************************************************************
+SELECT t.* FROM genero t;
+SELECT t.* FROM estado_civil t;
+SELECT t.* FROM pais t;
+SELECT t.* FROM departamento t;
+SELECT t.* FROM municipio t;
+SELECT t.* FROM moneda t;
+SELECT t.* FROM tipo_telefono t;
+SELECT t.* FROM deudor t;
+SELECT t.* FROM libreta_telefonica t;
+SELECT t.* FROM libreta_correo t;
+SELECT t.* FROM corporacion t;
+SELECT t.* FROM actor t;
+SELECT t.* FROM garantia t;
+SELECT t.* FROM estado_extrajudicial t;
+SELECT t.* FROM estatus_extrajudicial t;
+SELECT t.* FROM estado_judicial t;
+SELECT t.* FROM estatus_judicial t;
+SELECT t.* FROM estado_estatus_extrajudicial t;
+SELECT t.* FROM estado_estatus_judicial t;
+SELECT t.* FROM expediente t;
