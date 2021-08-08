@@ -1,3 +1,7 @@
+-- CREATE USER 'user_db_bitnet'@'localhost' IDENTIFIED BY 'p$41!jWaqt0Q';
+-- GRANT ALL PRIVILEGES ON db_lexcom_seguridad.* TO 'user_db_bitnet'@'localhost';
+-- GRANT ALL PRIVILEGES ON db_lexcom_negocio.* TO 'user_db_bitnet'@'localhost';
+-- FLUSH PRIVILEGES;
 CREATE DATABASE db_lexcom_seguridad CHARACTER SET utf8mb4;
 -- *******************************************************************************
 --  INDICAMOS A MYSQL QUE UTILIZAREMOS LA BASE DE DATOS: db_lexcom_seguridad.    *
