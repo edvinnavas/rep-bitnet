@@ -1,6 +1,13 @@
+-- CREATE USER 'user_db_bitnet'@'localhost' IDENTIFIED BY 'p$41!jWaqt0Q';
+-- GRANT ALL PRIVILEGES ON db_lexcom_negocio.* TO 'user_db_bitnet'@'localhost';
+-- FLUSH PRIVILEGES;
 -- *******************************************************************************
+--  CREAMOS LA BASE DE DATOS: db_lexcom_negocio.                                 *
 --  INDICAMOS A MYSQL QUE UTILIZAREMOS LA BASE DE DATOS: db_lexcom_negocio.      *
 -- *******************************************************************************
+DROP DATABASE IF EXISTS db_lexcom_negocio;
+CREATE DATABASE db_lexcom_negocio CHARACTER SET utf8mb4;
+
 USE db_lexcom_negocio;
 -- *******************************************************************************
 --  BORRAMOS TODAS LAS TABLAS DE LA BASE DE DATOS: db_lexcom_negocio.            *
@@ -254,3 +261,4 @@ SELECT t.* FROM estatus_judicial t;
 SELECT t.* FROM estado_estatus_extrajudicial t;
 SELECT t.* FROM estado_estatus_judicial t;
 SELECT t.* FROM expediente t;
+
