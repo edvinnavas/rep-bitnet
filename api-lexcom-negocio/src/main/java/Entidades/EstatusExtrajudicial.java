@@ -7,17 +7,17 @@ public class EstatusExtrajudicial implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private EstadoExtrajudicial estado_extrajudicial;
     private Long id_estatus_extrajudicial;
+    private EstadoExtrajudicial estado_extrajudicial;
     private String nombre;
     private Long activo;
     private String descripcion;
     private Calendar fecha_hora_modificacion;
     private String usuario_modificacion;
 
-    public EstatusExtrajudicial(EstadoExtrajudicial estado_extrajudicial, Long id_estatus_extrajudicial, String nombre, Long activo, String descripcion, Calendar fecha_hora_modificacion, String usuario_modificacion) {
-        this.estado_extrajudicial = estado_extrajudicial;
+    public EstatusExtrajudicial(Long id_estatus_extrajudicial, EstadoExtrajudicial estado_extrajudicial, String nombre, Long activo, String descripcion, Calendar fecha_hora_modificacion, String usuario_modificacion) {
         this.id_estatus_extrajudicial = id_estatus_extrajudicial;
+        this.estado_extrajudicial = estado_extrajudicial;
         this.nombre = nombre;
         this.activo = activo;
         this.descripcion = descripcion;
@@ -28,20 +28,20 @@ public class EstatusExtrajudicial implements Serializable {
     public EstatusExtrajudicial() {
     }
 
-    public EstadoExtrajudicial getEstado_extrajudicial() {
-        return estado_extrajudicial;
-    }
-
-    public void setEstado_extrajudicial(EstadoExtrajudicial estado_extrajudicial) {
-        this.estado_extrajudicial = estado_extrajudicial;
-    }
-
     public Long getId_estatus_extrajudicial() {
         return id_estatus_extrajudicial;
     }
 
     public void setId_estatus_extrajudicial(Long id_estatus_extrajudicial) {
         this.id_estatus_extrajudicial = id_estatus_extrajudicial;
+    }
+
+    public EstadoExtrajudicial getEstado_extrajudicial() {
+        return estado_extrajudicial;
+    }
+
+    public void setEstado_extrajudicial(EstadoExtrajudicial estado_extrajudicial) {
+        this.estado_extrajudicial = estado_extrajudicial;
     }
 
     public String getNombre() {
@@ -86,7 +86,7 @@ public class EstatusExtrajudicial implements Serializable {
 
     @Override
     public String toString() {
-        return "EstatusExtrajudicial{" + "estado_extrajudicial=" + estado_extrajudicial + ", id_estatus_extrajudicial=" + id_estatus_extrajudicial + ", nombre=" + nombre + ", activo=" + activo + ", descripcion=" + descripcion + ", fecha_hora_modificacion=" + fecha_hora_modificacion + ", usuario_modificacion=" + usuario_modificacion + '}';
+        return "EstatusExtrajudicial{" + "id_estatus_extrajudicial=" + id_estatus_extrajudicial + ", estado_extrajudicial=" + estado_extrajudicial + ", nombre=" + nombre + ", activo=" + activo + ", descripcion=" + descripcion + ", fecha_hora_modificacion=" + fecha_hora_modificacion + ", usuario_modificacion=" + usuario_modificacion + '}';
     }
     
 }

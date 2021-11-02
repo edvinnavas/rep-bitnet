@@ -6,25 +6,17 @@ public class Municipio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private Departamento departamento;
     private Long id_municipio;
+    private Departamento departamento;
     private String nombre;
 
-    public Municipio(Departamento departamento, Long id_municipio, String nombre) {
-        this.departamento = departamento;
+    public Municipio(Long id_municipio, Departamento departamento, String nombre) {
         this.id_municipio = id_municipio;
+        this.departamento = departamento;
         this.nombre = nombre;
     }
 
     public Municipio() {
-    }
-
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
     }
 
     public Long getId_municipio() {
@@ -33,6 +25,14 @@ public class Municipio implements Serializable {
 
     public void setId_municipio(Long id_municipio) {
         this.id_municipio = id_municipio;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 
     public String getNombre() {
@@ -45,7 +45,7 @@ public class Municipio implements Serializable {
 
     @Override
     public String toString() {
-        return "Municipio{" + "departamento=" + departamento + ", id_municipio=" + id_municipio + ", nombre=" + nombre + '}';
+        return "Municipio{" + "id_municipio=" + id_municipio + ", departamento=" + departamento + ", nombre=" + nombre + '}';
     }
     
 }

@@ -7,6 +7,7 @@ public class CodigoResultado implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    private Long id_codigo_resultado;
     private AreaCodigoResultado area_codigo_resultado;
     private RegistroCodigoResultado registro_codigo_resultado;
     private TipoCodigoResultado tipo_codigo_resultado;
@@ -18,7 +19,8 @@ public class CodigoResultado implements Serializable {
     private Calendar fecha_hora_modificacion;
     private String usuario_modificacion;
 
-    public CodigoResultado(AreaCodigoResultado area_codigo_resultado, RegistroCodigoResultado registro_codigo_resultado, TipoCodigoResultado tipo_codigo_resultado, Long es_contacto, String codigo, String nombre, Long activo, String descripcion, Calendar fecha_hora_modificacion, String usuario_modificacion) {
+    public CodigoResultado(Long id_codigo_resultado, AreaCodigoResultado area_codigo_resultado, RegistroCodigoResultado registro_codigo_resultado, TipoCodigoResultado tipo_codigo_resultado, Long es_contacto, String codigo, String nombre, Long activo, String descripcion, Calendar fecha_hora_modificacion, String usuario_modificacion) {
+        this.id_codigo_resultado = id_codigo_resultado;
         this.area_codigo_resultado = area_codigo_resultado;
         this.registro_codigo_resultado = registro_codigo_resultado;
         this.tipo_codigo_resultado = tipo_codigo_resultado;
@@ -32,6 +34,14 @@ public class CodigoResultado implements Serializable {
     }
 
     public CodigoResultado() {
+    }
+
+    public Long getId_codigo_resultado() {
+        return id_codigo_resultado;
+    }
+
+    public void setId_codigo_resultado(Long id_codigo_resultado) {
+        this.id_codigo_resultado = id_codigo_resultado;
     }
 
     public AreaCodigoResultado getArea_codigo_resultado() {
@@ -116,7 +126,7 @@ public class CodigoResultado implements Serializable {
 
     @Override
     public String toString() {
-        return "CodigoResultado{" + "area_codigo_resultado=" + area_codigo_resultado + ", registro_codigo_resultado=" + registro_codigo_resultado + ", tipo_codigo_resultado=" + tipo_codigo_resultado + ", es_contacto=" + es_contacto + ", codigo=" + codigo + ", nombre=" + nombre + ", activo=" + activo + ", descripcion=" + descripcion + ", fecha_hora_modificacion=" + fecha_hora_modificacion + ", usuario_modificacion=" + usuario_modificacion + '}';
+        return "CodigoResultado{" + "id_codigo_resultado=" + id_codigo_resultado + ", area_codigo_resultado=" + area_codigo_resultado + ", registro_codigo_resultado=" + registro_codigo_resultado + ", tipo_codigo_resultado=" + tipo_codigo_resultado + ", es_contacto=" + es_contacto + ", codigo=" + codigo + ", nombre=" + nombre + ", activo=" + activo + ", descripcion=" + descripcion + ", fecha_hora_modificacion=" + fecha_hora_modificacion + ", usuario_modificacion=" + usuario_modificacion + '}';
     }
     
 }

@@ -8,6 +8,7 @@ public class Expediente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    private Long id_expediente;
     private Actor actor;
     private Deudor deudor;
     private Long numero_caso;
@@ -40,8 +41,10 @@ public class Expediente implements Serializable {
     private String usuario_modificacion;
     private List<BitacoraGestionCobros> lst_bitacora_gestion_cobros;
     private List<BitacoraGestionJuridico> lst_bitacora_gestion_juridico;
+    private List<Convenio> lst_convenio;
 
-    public Expediente(Actor actor, Deudor deudor, Long numero_caso, EstatusExtrajudicial estatus_extrajudicial, EstatusJudicial estatus_judicial, Garantia garantia, Moneda moneda, CodigoResultado codigo_resultado, Cosecha cosecha, Antiguedad antiguedad, IntencionPago intencion_pago, RazonDeuda razon_deuda, Calendar fecha_ingreso, Calendar fecha_recepcion, Double monto_inicial, Double saldo, String numero_cuenta, String numero_cuenta_otro, String gestor_extrajudicial, String gestor_judicial, Long estado, Long pdf, Long inv, Long maycom, Long nit, Long anticipo, String descripcion, String descripcion_adicional, Calendar fecha_hora_modificacion, String usuario_modificacion, List<BitacoraGestionCobros> lst_bitacora_gestion_cobros, List<BitacoraGestionJuridico> lst_bitacora_gestion_juridico) {
+    public Expediente(Long id_expediente, Actor actor, Deudor deudor, Long numero_caso, EstatusExtrajudicial estatus_extrajudicial, EstatusJudicial estatus_judicial, Garantia garantia, Moneda moneda, CodigoResultado codigo_resultado, Cosecha cosecha, Antiguedad antiguedad, IntencionPago intencion_pago, RazonDeuda razon_deuda, Calendar fecha_ingreso, Calendar fecha_recepcion, Double monto_inicial, Double saldo, String numero_cuenta, String numero_cuenta_otro, String gestor_extrajudicial, String gestor_judicial, Long estado, Long pdf, Long inv, Long maycom, Long nit, Long anticipo, String descripcion, String descripcion_adicional, Calendar fecha_hora_modificacion, String usuario_modificacion, List<BitacoraGestionCobros> lst_bitacora_gestion_cobros, List<BitacoraGestionJuridico> lst_bitacora_gestion_juridico, List<Convenio> lst_convenio) {
+        this.id_expediente = id_expediente;
         this.actor = actor;
         this.deudor = deudor;
         this.numero_caso = numero_caso;
@@ -74,9 +77,18 @@ public class Expediente implements Serializable {
         this.usuario_modificacion = usuario_modificacion;
         this.lst_bitacora_gestion_cobros = lst_bitacora_gestion_cobros;
         this.lst_bitacora_gestion_juridico = lst_bitacora_gestion_juridico;
+        this.lst_convenio = lst_convenio;
     }
 
     public Expediente() {
+    }
+
+    public Long getId_expediente() {
+        return id_expediente;
+    }
+
+    public void setId_expediente(Long id_expediente) {
+        this.id_expediente = id_expediente;
     }
 
     public Actor getActor() {
@@ -335,9 +347,17 @@ public class Expediente implements Serializable {
         this.lst_bitacora_gestion_juridico = lst_bitacora_gestion_juridico;
     }
 
+    public List<Convenio> getLst_convenio() {
+        return lst_convenio;
+    }
+
+    public void setLst_convenio(List<Convenio> lst_convenio) {
+        this.lst_convenio = lst_convenio;
+    }
+
     @Override
     public String toString() {
-        return "Expediente{" + "actor=" + actor + ", deudor=" + deudor + ", numero_caso=" + numero_caso + ", estatus_extrajudicial=" + estatus_extrajudicial + ", estatus_judicial=" + estatus_judicial + ", garantia=" + garantia + ", moneda=" + moneda + ", codigo_resultado=" + codigo_resultado + ", cosecha=" + cosecha + ", antiguedad=" + antiguedad + ", intencion_pago=" + intencion_pago + ", razon_deuda=" + razon_deuda + ", fecha_ingreso=" + fecha_ingreso + ", fecha_recepcion=" + fecha_recepcion + ", monto_inicial=" + monto_inicial + ", saldo=" + saldo + ", numero_cuenta=" + numero_cuenta + ", numero_cuenta_otro=" + numero_cuenta_otro + ", gestor_extrajudicial=" + gestor_extrajudicial + ", gestor_judicial=" + gestor_judicial + ", estado=" + estado + ", pdf=" + pdf + ", inv=" + inv + ", maycom=" + maycom + ", nit=" + nit + ", anticipo=" + anticipo + ", descripcion=" + descripcion + ", descripcion_adicional=" + descripcion_adicional + ", fecha_hora_modificacion=" + fecha_hora_modificacion + ", usuario_modificacion=" + usuario_modificacion + ", lst_bitacora_gestion_cobros=" + lst_bitacora_gestion_cobros + ", lst_bitacora_gestion_juridico=" + lst_bitacora_gestion_juridico + '}';
+        return "Expediente{" + "id_expediente=" + id_expediente + ", actor=" + actor + ", deudor=" + deudor + ", numero_caso=" + numero_caso + ", estatus_extrajudicial=" + estatus_extrajudicial + ", estatus_judicial=" + estatus_judicial + ", garantia=" + garantia + ", moneda=" + moneda + ", codigo_resultado=" + codigo_resultado + ", cosecha=" + cosecha + ", antiguedad=" + antiguedad + ", intencion_pago=" + intencion_pago + ", razon_deuda=" + razon_deuda + ", fecha_ingreso=" + fecha_ingreso + ", fecha_recepcion=" + fecha_recepcion + ", monto_inicial=" + monto_inicial + ", saldo=" + saldo + ", numero_cuenta=" + numero_cuenta + ", numero_cuenta_otro=" + numero_cuenta_otro + ", gestor_extrajudicial=" + gestor_extrajudicial + ", gestor_judicial=" + gestor_judicial + ", estado=" + estado + ", pdf=" + pdf + ", inv=" + inv + ", maycom=" + maycom + ", nit=" + nit + ", anticipo=" + anticipo + ", descripcion=" + descripcion + ", descripcion_adicional=" + descripcion_adicional + ", fecha_hora_modificacion=" + fecha_hora_modificacion + ", usuario_modificacion=" + usuario_modificacion + ", lst_bitacora_gestion_cobros=" + lst_bitacora_gestion_cobros + ", lst_bitacora_gestion_juridico=" + lst_bitacora_gestion_juridico + ", lst_convenio=" + lst_convenio + '}';
     }
     
 }
