@@ -666,7 +666,7 @@ INSERT INTO convenio_historial (id_convenio_historial, id_convenio, id_estado_co
 
 INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (1, 'PENDIENTE', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
 INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (2, 'CUMPLIDO', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
-INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (1, 'INCUMPLIDO', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
+INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (3, 'INCUMPLIDO', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
 
 INSERT INTO promesa_pago (id_promesa_pago, id_convenio, id_estado_promesa_pago, fecha_pago, monto_pago, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (1, 1, 1, CURDATE(), 23456.78, 'Promesa de Pago creada de prueba.', NOW(), 'SYSTEM');
 
@@ -718,5 +718,5 @@ SELECT epp.* FROM estado_promesa_pago epp;
 SELECT pp.* FROM promesa_pago pp;
 SELECT pph.* FROM promesa_pago_historial pph;
 
-commit;
+COMMIT;
 
