@@ -69,24 +69,25 @@ CREATE TABLE usuario (
 -- *******************************************************************************
 --  SE LLENAN LAS TABLAS CON VALORES INICIALES DE CONFIGURACIÓN.                 *
 -- *******************************************************************************
-INSERT INTO aplicacion (id_aplicacion, nombre, descripcion) VALUES (1, 'USUARIOS', 'Módulo para el registro de usuarios de la aplicación.');
-INSERT INTO aplicacion (id_aplicacion, nombre, descripcion) VALUES (2, 'ROLES', 'Módulo para el registro de roles de la aplicación.');
+INSERT INTO aplicacion (id_aplicacion, nombre, descripcion) VALUES (1, 'APLICACIONES', 'Módulo para el registro de aplicaciones en el sistema.');
+INSERT INTO aplicacion (id_aplicacion, nombre, descripcion) VALUES (2, 'CONTROLES', 'Módulo para el registro de aplicaciones en el sistema.');
+INSERT INTO aplicacion (id_aplicacion, nombre, descripcion) VALUES (3, 'ROLES', 'Módulo para el registro de roles en el sistema.');
+INSERT INTO aplicacion (id_aplicacion, nombre, descripcion) VALUES (4, 'USUARIOS', 'Módulo para el registro de usuarios en el sistema.');
 
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (1, 1, 'menuUsuario', 'Opcion de menu.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (2, 1, 'btnAgregarUsuario', 'Botón para llamar el formulario del registro de usuarios.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (3, 1, 'dblModificarUsuario', 'Acción para llamar el formulario del registro de usuarios, modificar.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (4, 1, 'btnInactivarUsuario', 'Botón cambiar estado inactivar usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (5, 1, 'btnActivarUsuario', 'Botón cambiar estado activar usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (6, 1, 'txtNombreCompleto', 'Campo para registrar el nombre completo del usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (7, 1, 'txtNombreUsuario', 'Campo para registrar el alias usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (8, 1, 'pswConstrasenaUsuario', 'Campo para el registro de la constraseña.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (9, 1, 'txtCorreoElectronico', 'Campo para registrar el correo electrónico del usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (10, 1, 'areDescripcion', 'Campo para registrar una descripción del usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (11, 1, 'btnAceptarUsuario', 'Botón guardar la información del usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (1, 4, 'btnAgregarUsuario', 'Botón para llamar el formulario del registro de usuarios.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (2, 4, 'dblModificarUsuario', 'Acción para llamar el formulario del registro de usuarios, modificar.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (3, 4, 'btnInactivarUsuario', 'Botón cambiar estado inactivar usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (4, 4, 'btnActivarUsuario', 'Botón cambiar estado activar usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (5, 4, 'txtNombreCompleto', 'Campo para registrar el nombre completo del usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (6, 4, 'txtNombreUsuario', 'Campo para registrar el alias usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (7, 4, 'pswConstrasenaUsuario', 'Campo para el registro de la constraseña.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (8, 4, 'txtCorreoElectronico', 'Campo para registrar el correo electrónico del usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (9, 4, 'areDescripcion', 'Campo para registrar una descripción del usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, descripcion) VALUES (10, 4, 'btnAceptarUsuario', 'Botón guardar la información del usuario.');
 
 INSERT INTO rol (id_rol, nombre, descripcion) VALUES (1, 'ROL-ADMINISTRADOR', 'Rol creado por el sistema para el usuario administrador.');
 
-INSERT INTO rol_aplicacion_control (id_rol_aplicacion_control, id_rol, id_control, id_aplicacion) VALUES (1, 1, 1, 1);
+INSERT INTO rol_aplicacion_control (id_rol_aplicacion_control, id_rol, id_control, id_aplicacion) VALUES (1, 1, 1, 4);
 
 INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, descripcion, id_rol) 
 VALUES (1, 'ADMINISTRADOR.', 'admin', SHA2('@dm1n', 512), 'edvin.navas@gmail.com', 'Usuario administrador de la aplicación con contraseña SHA-2.', 1);
