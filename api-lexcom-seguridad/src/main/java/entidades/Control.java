@@ -9,12 +9,14 @@ public class Control implements Serializable {
     private Long id_control;
     private Aplicacion aplicacion;
     private String nombre;
+    private Long activo;
     private String descripcion;
 
-    public Control(Long id_control, Aplicacion aplicacion, String nombre, String descripcion) {
+    public Control(Long id_control, Aplicacion aplicacion, String nombre, Long activo, String descripcion) {
         this.id_control = id_control;
         this.aplicacion = aplicacion;
         this.nombre = nombre;
+        this.activo = activo;
         this.descripcion = descripcion;
     }
 
@@ -45,6 +47,14 @@ public class Control implements Serializable {
         this.nombre = nombre;
     }
 
+    public Long getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Long activo) {
+        this.activo = activo;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -55,7 +65,7 @@ public class Control implements Serializable {
 
     @Override
     public String toString() {
-        return "Control{" + "id_control=" + id_control + ", aplicacion=" + aplicacion + ", nombre=" + nombre + ", descripcion=" + descripcion + '}';
+        return "Control{" + "id_control=" + id_control + ", aplicacion=" + aplicacion + ", nombre=" + nombre + ", activo=" + activo + ", descripcion=" + descripcion + '}';
     }
     
 }
