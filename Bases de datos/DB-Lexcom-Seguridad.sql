@@ -89,11 +89,19 @@ INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VAL
 INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (10, 4, 'btnAceptarUsuario', 1, 'Botón guardar la información del usuario.');
 
 INSERT INTO rol (id_rol, nombre, activo, descripcion) VALUES (1, 'ROL-ADMINISTRADOR', 1, 'Rol creado por el sistema para el usuario administrador.');
+INSERT INTO rol (id_rol, nombre, activo, descripcion) VALUES (2, 'ROL-OPERATIVO', 1, 'Rol creado por el sistema para el usuario operativo.');
 
-INSERT INTO rol_aplicacion_control (id_rol_aplicacion_control, id_rol, id_control, id_aplicacion) VALUES (1, 1, 1, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 1, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 5, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 7, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 8, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 9, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 10, 4);
 
 INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, activo, descripcion, id_rol) 
 VALUES (1, 'ADMINISTRADOR.', 'admin', SHA2('@dm1n', 512), 'edvin.navas@gmail.com', 1, 'Usuario administrador de la aplicación con contraseña SHA-2.', 1);
+INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, activo, descripcion, id_rol) 
+VALUES (2, 'OPERATIVO.', 'operativo', SHA2('@dm1n', 512), 'edvin.navas@gmail.com', 1, 'Usuario operativo de la aplicación con contraseña SHA-2.', 2);
 
 COMMIT;
 -- *******************************************************************************
@@ -112,3 +120,31 @@ SELECT IFNULL(MAX(a.id_aplicacion), 0) + 1 MAXIMO FROM aplicacion a;
 
 -- SELECT CONVERT(COMPRESS('Edfr@2021') USING utf8mb4) TEXTO_COMPRESS;
 -- SELECT CONVERT(UNCOMPRESS(COMPRESS('Edfr@2021')) USING utf8mb4) TEXTO_COMPRESS;
+
+SELECT 
+	u.id_usuario, 
+    u.nombre_completo,
+    u.nombre_usuario, 
+    '-' contrasena, 
+    u.correo_electronico, 
+    u.activo, 
+    u.descripcion, 
+    r.id_rol,
+    r.nombre,
+    r.activo,
+    r.descripcion,
+    rac.id_rol,
+    c.id_control,
+    c.nombre,
+    c.activo,
+    c.descripcion,
+    a.id_aplicacion,
+    a.nombre,
+    a.activo,
+    a.descripcion
+FROM 
+	usuario u
+    LEFT JOIN rol r ON (u.id_rol=r.id_rol)
+    LEFT JOIN rol_aplicacion_control rac ON (r.id_rol=rac.id_rol)
+    LEFT JOIN control c ON (rac.id_control=c.id_control AND rac.id_aplicacion=c.id_aplicacion)
+    LEFT JOIN aplicacion a ON (c.id_aplicacion=a.id_aplicacion);
