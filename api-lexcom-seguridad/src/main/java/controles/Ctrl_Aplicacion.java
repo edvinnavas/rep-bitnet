@@ -19,36 +19,31 @@ public class Ctrl_Aplicacion implements Serializable {
     public Ctrl_Aplicacion() {
     }
 
-    public String obtener_aplicacion_todos(Connection conn) {
-        String resultado = "";
+    public List<Aplicacion> obtener_aplicacion_todos(Connection conn) {
+        List<Aplicacion> resultado = new ArrayList<>();
 
         try {
-            List<Aplicacion> lst_aplicacion = new ArrayList<>();
-            
             String cadenasql = "SELECT a.id_aplicacion, a.nombre, a.activo, a.descripcion FROM aplicacion a";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(cadenasql);
             while (rs.next()) {
                 Aplicacion aplicacion = new Aplicacion(rs.getLong(1), rs.getString(2), rs.getLong(3), rs.getString(4));
-                lst_aplicacion.add(aplicacion);
+                resultado.add(aplicacion);
             }
             rs.close();
             stmt.close();
-
-            resultado = new Gson().toJson(lst_aplicacion);
         } catch (Exception ex) {
-            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_aplicacion_todos MENSAJE: " + ex.getLocalizedMessage();
             System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_aplicacion_todos MENSAJE: " + ex.getLocalizedMessage());
         }
 
         return resultado;
     }
-    
+
     public Aplicacion obtener_aplicacion(Long id_aplicacion, Connection conn) {
         Aplicacion resultado = new Aplicacion();
 
-        try {            
-            String cadenasql = "SELECT a.id_aplicacion, a.nombre, a.activo, a.descripcion FROM aplicacion a WHERE a.id_aplicacion=" + id_aplicacion ;
+        try {
+            String cadenasql = "SELECT a.id_aplicacion, a.nombre, a.activo, a.descripcion FROM aplicacion a WHERE a.id_aplicacion=" + id_aplicacion;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(cadenasql);
             while (rs.next()) {
@@ -73,7 +68,7 @@ public class Ctrl_Aplicacion implements Serializable {
             List<Aplicacion> lista_aplicacion = new Gson().fromJson(jsonString, listType);
 
             conn.setAutoCommit(false);
-            
+
             for (Integer i = 0; i < lista_aplicacion.size(); i++) {
                 String cadenasql = "SELECT IFNULL(MAX(a.id_aplicacion), 0) + 1 MAXIMO FROM aplicacion a";
                 Statement stmt = conn.createStatement();
@@ -113,7 +108,7 @@ public class Ctrl_Aplicacion implements Serializable {
 
         return resultado;
     }
-    
+
     public String modificar_aplicacion(String jsonString, Connection conn) {
         String resultado = "";
 
@@ -123,7 +118,7 @@ public class Ctrl_Aplicacion implements Serializable {
             List<Aplicacion> lista_aplicacion = new Gson().fromJson(jsonString, listType);
 
             conn.setAutoCommit(false);
-            
+
             for (Integer i = 0; i < lista_aplicacion.size(); i++) {
                 String cadenasql = "UPDATE aplicacion SET nombre=?, activo=?, descripcion=? WHERE id_aplicacion=?";
                 PreparedStatement pstmt = conn.prepareStatement(cadenasql);
@@ -153,18 +148,18 @@ public class Ctrl_Aplicacion implements Serializable {
 
         return resultado;
     }
-    
+
     public String eliminar_aplicacion(Long id_aplicacion, Connection conn) {
         String resultado = "";
 
         try {
             conn.setAutoCommit(false);
-            
-                String cadenasql = "DELETE FROM aplicacion WHERE id_aplicacion=?";
-                PreparedStatement pstmt = conn.prepareStatement(cadenasql);
-                pstmt.setLong(1, id_aplicacion);
-                pstmt.executeUpdate();
-                pstmt.close();
+
+            String cadenasql = "DELETE FROM aplicacion WHERE id_aplicacion=?";
+            PreparedStatement pstmt = conn.prepareStatement(cadenasql);
+            pstmt.setLong(1, id_aplicacion);
+            pstmt.executeUpdate();
+            pstmt.close();
 
             conn.commit();
             conn.setAutoCommit(true);
@@ -184,5 +179,5 @@ public class Ctrl_Aplicacion implements Serializable {
 
         return resultado;
     }
-    
+
 }
