@@ -179,5 +179,32 @@ public class Ctrl_Aplicacion implements Serializable {
 
         return resultado;
     }
-
+    
+    public boolean obtener_actividad_aplicacion(Long id_aplicacion, Connection conn) {
+        boolean resultado = false;
+        
+        try {
+            String cadenasql = "SELECT a.activo FROM aplicacion a WHERE a.id_aplicacion=?";
+            PreparedStatement stmt = conn.prepareStatement(cadenasql);
+            stmt.setLong(1, id_aplicacion);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Long activo = rs.getLong(1);
+                switch (activo.intValue()) {
+                    case 1:
+                        resultado = true;
+                        break;
+                    case 0:
+                    default:
+                        break;
+                }
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_aplicacion MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
 }

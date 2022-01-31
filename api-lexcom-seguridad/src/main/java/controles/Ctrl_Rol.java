@@ -2,6 +2,7 @@ package controles;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import entidades.Control;
 import entidades.Rol;
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -33,7 +34,7 @@ public class Ctrl_Rol implements Serializable {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(cadenasql);
             while (rs.next()) {
-                Rol rol = new Rol(rs.getLong(1), rs.getString(2), rs.getLong(3), rs.getString(4), new ArrayList<>());
+                Rol rol = new Rol(rs.getLong(1), rs.getString(2), rs.getLong(3), rs.getString(4), this.obtener_controladores_permitidos(rs.getLong(1), conn));
                 resultado.add(rol);
             }
             rs.close();
@@ -61,7 +62,7 @@ public class Ctrl_Rol implements Serializable {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(cadenasql);
             while (rs.next()) {
-                resultado = new Rol(rs.getLong(1), rs.getString(2), rs.getLong(3), rs.getString(4), new ArrayList<>());
+                resultado = new Rol(rs.getLong(1), rs.getString(2), rs.getLong(3), rs.getString(4), this.obtener_controladores_permitidos(id_rol, conn));
             }
             rs.close();
             stmt.close();
@@ -162,5 +163,54 @@ public class Ctrl_Rol implements Serializable {
 
         return resultado;
     }
-
+    
+    private List<Control> obtener_controladores_permitidos(Long id_rol, Connection conn) {
+        List<Control> resultado = new ArrayList<>();
+        
+        try {
+            String cadenasql = "SELECT rac.id_control FROM rol_aplicacion_control rac WHERE rac.id_rol=?";
+            PreparedStatement stmt = conn.prepareStatement(cadenasql);
+            stmt.setLong(1, id_rol);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Ctrl_Control ctrl_control = new Ctrl_Control();
+                Control control = ctrl_control.obtener_control(id_rol, conn);
+                resultado.add(control);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_controladores_permitidos MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
+    
+    public boolean obtener_actividad_rol(Long id_rol, Connection conn) {
+        boolean resultado = false;
+        
+        try {
+            String cadenasql = "SELECT r.activo FROM rol r WHERE r.id_rol=?";
+            PreparedStatement stmt = conn.prepareStatement(cadenasql);
+            stmt.setLong(1, id_rol);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Long activo = rs.getLong(1);
+                switch (activo.intValue()) {
+                    case 1:
+                        resultado = true;
+                        break;
+                    case 0:
+                    default:
+                        break;
+                }
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_rol MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
 }

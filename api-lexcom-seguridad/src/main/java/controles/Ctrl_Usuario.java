@@ -125,9 +125,12 @@ public class Ctrl_Usuario implements Serializable {
         } catch (Exception ex) {
             try {
                 conn.rollback();
-         
+
+                resultado = "1,ERROR: " + this.getClass().getName() + " METODO: crear_usuario MENSAJE: " + ex.getLocalizedMessage();
+                System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: crear_usuario MENSAJE: " + ex.getLocalizedMessage());
             } catch (Exception ex1) {
-                
+                resultado = "1,ERROR: " + this.getClass().getName() + " METODO: crear_usuario_1 MENSAJE: " + ex1.getLocalizedMessage();
+                System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: crear_usuario_1 MENSAJE: " + ex1.getLocalizedMessage());
             }
         }
 
@@ -173,6 +176,34 @@ public class Ctrl_Usuario implements Serializable {
                 resultado = "1,ERROR: " + this.getClass().getName() + " METODO: modificar_usuario_1 MENSAJE: " + ex1.getLocalizedMessage();
                 System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: modificar_usuario_1 MENSAJE: " + ex1.getLocalizedMessage());
             }
+        }
+        
+        return resultado;
+    }
+    
+    public boolean obtener_actividad_usuario(Long id_usuario, Connection conn) {
+        boolean resultado = false;
+        
+        try {
+            String cadenasql = "SELECT u.activo FROM usuario u WHERE u.id_usuario=?";
+            PreparedStatement stmt = conn.prepareStatement(cadenasql);
+            stmt.setLong(1, id_usuario);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Long activo = rs.getLong(1);
+                switch (activo.intValue()) {
+                    case 1:
+                        resultado = true;
+                        break;
+                    case 0:
+                    default:
+                        break;
+                }
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_usuario MENSAJE: " + ex.getLocalizedMessage());
         }
         
         return resultado;

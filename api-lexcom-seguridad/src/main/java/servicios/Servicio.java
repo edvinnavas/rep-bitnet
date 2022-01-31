@@ -2,10 +2,12 @@ package servicios;
 
 import com.google.gson.Gson;
 import controles.Ctrl_Aplicacion;
+import controles.Ctrl_Control;
 import controles.Ctrl_Driver;
 import controles.Ctrl_Rol;
 import controles.Ctrl_Usuario;
 import entidades.Aplicacion;
+import entidades.Control;
 import entidades.Rol;
 import entidades.Usuario;
 import java.io.Serializable;
@@ -143,6 +145,26 @@ public class Servicio implements Serializable {
     }
     
     @GET
+    @Path("obtener_actividad_aplicacion/{id_aplicacion}")
+    @Produces({"application/json", "text/plain"})
+    public String obtener_actividad_aplicacion(@PathParam("id_aplicacion") Long id_aplicacion) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Aplicacion ctrl_aplicacion = new Ctrl_Aplicacion();
+            boolean actividad = ctrl_aplicacion.obtener_actividad_aplicacion(id_aplicacion, conn);
+            resultado = new Gson().toJson(actividad);
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_aplicacion MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_aplicacion MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
+    
+    @GET
     @Path("obtener_usuario_todos")
     @Produces({"application/json", "text/plain"})
     public String obtener_usuario_todos() {
@@ -240,6 +262,26 @@ public class Servicio implements Serializable {
         return resultado;
     }
     
+    @GET
+    @Path("obtener_actividad_usuario/{id_usuario}")
+    @Produces({"application/json", "text/plain"})
+    public String obtener_actividad_usuario(@PathParam("id_usuario") Long id_usuario) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Usuario ctrl_usuario = new Ctrl_Usuario();
+            boolean actividad = ctrl_usuario.obtener_actividad_usuario(id_usuario, conn);
+            resultado = new Gson().toJson(actividad);
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_usuario MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_usuario MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
+    
     @POST
     @Path("crear_rol")
     @Produces({"text/plain"})
@@ -325,4 +367,139 @@ public class Servicio implements Serializable {
         return resultado;
     }
     
+    @GET
+    @Path("obtener_actividad_rol/{id_rol}")
+    @Produces({"application/json", "text/plain"})
+    public String obtener_actividad_rol(@PathParam("id_rol") Long id_rol) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Rol ctrl_rol = new Ctrl_Rol();
+            boolean actividad = ctrl_rol.obtener_actividad_rol(id_rol, conn);
+            resultado = new Gson().toJson(actividad);
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_control MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_control MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
+    
+    @GET
+    @Path("obtener_control_todos")
+    @Produces({"application/json", "text/plain"})
+    public String obtener_control_todos() {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Control ctrl_control = new Ctrl_Control();
+            List<Control> lst_control = ctrl_control.obtener_control_todos(conn);
+            resultado = new Gson().toJson(lst_control);
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_control_todos MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_control_todos MENSAJE: " + ex.getLocalizedMessage());
+        } finally {
+            this.conn = ctrl_driver.Cerrar_Conexion(this.conn);
+        }
+        
+        return resultado;
+    }
+    
+    @GET
+    @Path("obtener_control/{id_control}")
+    @Produces({"application/json", "text/plain"})
+    public String obtener_control(@PathParam("id_control") Long id_control) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Control ctrl_control = new Ctrl_Control();
+            Control control = ctrl_control.obtener_control(id_control, conn);
+            resultado = new Gson().toJson(control);
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_control MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_control MENSAJE: " + ex.getLocalizedMessage());
+        } finally {
+            this.conn = ctrl_driver.Cerrar_Conexion(this.conn);
+        }
+        
+        return resultado;
+    }
+    
+    @POST
+    @Path("crear_control/{id_aplicacion}")
+    @Produces({"text/plain"})
+    public String crear_control(@PathParam("id_aplicacion") Long id_aplicacion) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Control ctrl_control = new Ctrl_Control();
+            Ctrl_Aplicacion ctrl_aplicacion = new Ctrl_Aplicacion();
+            Aplicacion aplicacion = ctrl_aplicacion.obtener_aplicacion(id_aplicacion, conn);
+            if (aplicacion != null) {
+                resultado = ctrl_control.crear_control(resultado, id_aplicacion, conn);
+            } else {
+                resultado = "1,La aplicación no exists! por favor verifique los parametros.";
+            }
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: crear_control MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: crear_control MENSAJE: " + ex.getLocalizedMessage());
+        } finally {
+            this.conn = ctrl_driver.Cerrar_Conexion(this.conn);
+        }
+        
+        return resultado;
+    }
+    
+    @PUT
+    @Path("modificar_control/{id_control}")
+    @Produces({"text/plain"})
+    public String modificar_control(@PathParam("id_control") Long id_aplicacion) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Control ctrl_control = new Ctrl_Control();
+            Ctrl_Aplicacion ctrl_aplicacion = new Ctrl_Aplicacion();
+            Aplicacion aplicacion = ctrl_aplicacion.obtener_aplicacion(id_aplicacion, conn);
+            if (aplicacion != null) {
+                resultado = ctrl_control.modificar_control(resultado, id_aplicacion, conn);
+            } else {
+                resultado = "1,La aplicación no exists! por favor verifique los parametros.";
+            }
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: modificar_control MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: modificar_control MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
+    
+    @GET
+    @Path("obtener_actividad_control/{id_control}")
+    @Produces({"application/json", "text/plain"})
+    public String obtener_actividad_control(@PathParam("id_control") Long id_control) {
+        String resultado = "";
+        Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
+        
+        try {
+            this.conn = ctrl_driver.Abrir_Conexion();
+            Ctrl_Control ctrl_control = new Ctrl_Control();
+            boolean actividad = ctrl_control.obtener_actividad_control(id_control, conn);
+            resultado = new Gson().toJson(actividad);
+        } catch (Exception ex) {
+            resultado = "1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_control MENSAJE: " + ex.getLocalizedMessage();
+            System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: obtener_actividad_control MENSAJE: " + ex.getLocalizedMessage());
+        }
+        
+        return resultado;
+    }
 }
