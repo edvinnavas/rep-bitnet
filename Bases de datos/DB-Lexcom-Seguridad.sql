@@ -10,17 +10,9 @@ CREATE DATABASE db_lexcom_seguridad CHARACTER SET utf8mb4;
 
 USE db_lexcom_seguridad;
 -- *******************************************************************************
---  BORRAMOS TODAS LAS TABLAS DE LA BASE DE DATOS: db_lexcom_seguridad.          *
--- *******************************************************************************
-DROP TABLE IF EXISTS usuario;
-DROP TABLE IF EXISTS rol_aplicacion_control;
-DROP TABLE IF EXISTS rol;
-DROP TABLE IF EXISTS control;
-DROP TABLE IF EXISTS aplicacion;
-
--- *******************************************************************************
 --  CREAMOS TODAS LAS TABLAS DEL ESQUEMA: db_lexcom_seguridad.                   *
 -- *******************************************************************************
+DROP TABLE IF EXISTS aplicacion;
 CREATE TABLE aplicacion (
 	id_aplicacion BIGINT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
@@ -29,6 +21,7 @@ CREATE TABLE aplicacion (
     CONSTRAINT pk_aplicacion PRIMARY KEY (id_aplicacion)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
+DROP TABLE IF EXISTS control;
 CREATE TABLE control (
 	id_control BIGINT NOT NULL,
 	id_aplicacion BIGINT NOT NULL,
@@ -39,6 +32,7 @@ CREATE TABLE control (
     CONSTRAINT fk_control_1 FOREIGN KEY (id_aplicacion) REFERENCES aplicacion (id_aplicacion)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
+DROP TABLE IF EXISTS rol;
 CREATE TABLE rol (
 	id_rol BIGINT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
@@ -47,6 +41,7 @@ CREATE TABLE rol (
     CONSTRAINT pk_rol PRIMARY KEY (id_rol)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
+DROP TABLE IF EXISTS rol_aplicacion_control;
 CREATE TABLE rol_aplicacion_control (
     id_rol BIGINT NOT NULL,
     id_control BIGINT NOT NULL,
@@ -56,6 +51,7 @@ CREATE TABLE rol_aplicacion_control (
     CONSTRAINT fk_rol_aplicacion_control_2 FOREIGN KEY (id_control, id_aplicacion) REFERENCES control (id_control, id_aplicacion)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
+DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (
 	id_usuario BIGINT NOT NULL,
     nombre_completo VARCHAR(500) NOT NULL,
@@ -73,9 +69,10 @@ CREATE TABLE usuario (
 --  SE LLENAN LAS TABLAS CON VALORES INICIALES DE CONFIGURACIÓN.                 *
 -- *******************************************************************************
 INSERT INTO aplicacion (id_aplicacion, nombre, activo, descripcion) VALUES (1, 'APLICACIONES', 1, 'Módulo para el registro de aplicaciones en el sistema.');
-INSERT INTO aplicacion (id_aplicacion, nombre, activo, descripcion) VALUES (2, 'CONTROLES', 1, 'Módulo para el registro de aplicaciones en el sistema.');
+INSERT INTO aplicacion (id_aplicacion, nombre, activo, descripcion) VALUES (2, 'CONTROLES', 1, 'Módulo para el registro de controles en el sistema.');
 INSERT INTO aplicacion (id_aplicacion, nombre, activo, descripcion) VALUES (3, 'ROLES', 1, 'Módulo para el registro de roles en el sistema.');
 INSERT INTO aplicacion (id_aplicacion, nombre, activo, descripcion) VALUES (4, 'USUARIOS', 1, 'Módulo para el registro de usuarios en el sistema.');
+INSERT INTO aplicacion (id_aplicacion, nombre, activo, descripcion) VALUES (5, 'USUARIOS-PERMISOS', 1, 'Módulo para asignar permisos a los usuarios.');
 
 INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (1, 4, 'btnAgregarUsuario', 1, 'Botón para llamar el formulario del registro de usuarios.');
 INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (2, 4, 'dblModificarUsuario', 1, 'Acción para llamar el formulario del registro de usuarios, modificar.');
@@ -85,24 +82,29 @@ INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VAL
 INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (6, 4, 'txtNombreUsuario', 1, 'Campo para registrar el alias usuario.');
 INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (7, 4, 'pswConstrasenaUsuario', 1, 'Campo para el registro de la constraseña.');
 INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (8, 4, 'txtCorreoElectronico', 1, 'Campo para registrar el correo electrónico del usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (9, 4, 'areDescripcion', 1, 'Campo para registrar una descripción del usuario.');
-INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (10, 4, 'btnAceptarUsuario', 1, 'Botón guardar la información del usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (9, 4, 'cbxActivo', 1, 'CheckBox para indicar si el usuario esta activo.');
+INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (10, 4, 'areDescripcion', 1, 'Caja de texto para registrar una descripción del usuario.');
+INSERT INTO control (id_control, id_aplicacion, nombre, activo, descripcion) VALUES (11, 4, 'btnAceptarUsuario', 1, 'Botón guardar la información del usuario.');
 
-INSERT INTO rol (id_rol, nombre, activo, descripcion) VALUES (1, 'ROL-ADMINISTRADOR', 1, 'Rol creado por el sistema para el usuario administrador.');
-INSERT INTO rol (id_rol, nombre, activo, descripcion) VALUES (2, 'ROL-OPERATIVO', 1, 'Rol creado por el sistema para el usuario operativo.');
+INSERT INTO rol (id_rol, nombre, activo, descripcion) VALUES (1, 'ROL-ADMINISTRADOR', 1, 'Rol creado por el sistema para usuarios administrativos.');
+INSERT INTO rol (id_rol, nombre, activo, descripcion) VALUES (2, 'ROL-OPERATIVO', 1, 'Rol creado por el sistema para usuarios operativos.');
 
 INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 1, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 2, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 3, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 4, 4);
 INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 5, 4);
-INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 7, 4);
-INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 8, 4);
-INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 9, 4);
-INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (2, 10, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 6, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 7, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 8, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 9, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 10, 4);
+INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (1, 11, 4);
 
 INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, activo, descripcion, id_rol) 
 VALUES (1, 'ADMINISTRADOR.', 'admin', SHA2('@dm1n', 512), 'edvin.navas@gmail.com', 1, 'Usuario administrador de la aplicación con contraseña SHA-2.', 1);
 INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, activo, descripcion, id_rol) 
 VALUES (2, 'OPERATIVO.', 'operativo', SHA2('@dm1n', 512), 'edvin.navas@gmail.com', 1, 'Usuario operativo de la aplicación con contraseña SHA-2.', 2);
-
 COMMIT;
 -- *******************************************************************************
 --  CONSULTA DE TABLAS DEL ESQUEMA: db_lexcom_seguridad.                         *
@@ -113,7 +115,6 @@ SELECT r.* FROM rol r;
 SELECT rac.* FROM rol_aplicacion_control rac;
 SELECT u.* FROM usuario u;
 
-SELECT IFNULL(MAX(a.id_aplicacion), 0) + 1 MAXIMO FROM aplicacion a;
 -- SELECT u.*
 -- FROM usuario u
 -- WHERE u.nombre_usuario='admin' AND TRIM(CONVERT(u.contrasena USING UTF8MB4)) = TRIM(SHA2('@dm1n', 512));
