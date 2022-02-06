@@ -82,13 +82,15 @@ public class Ctrl_Usuario implements Serializable {
         return resultado;
     }
 
-    public String crear_usuario(String jsonString, Long id_rol, Connection conn) {
+    public String crear_usuario(String jsonString, Connection conn) {
         String resultado = "";
 
         try {
             Type listType = new TypeToken<ArrayList<Usuario>>() {
             }.getType();
             List<Usuario> lista_usuario = new Gson().fromJson(jsonString, listType);
+            
+            System.out.println(new Gson().toJson(lista_usuario));
             
             conn.setAutoCommit(false);
             
@@ -102,17 +104,18 @@ public class Ctrl_Usuario implements Serializable {
                 }
                 rs.close();
                 stmt.close();
-                
-                cadenasql = "INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, activo, descripcion, id_rol) VALUES (?,?,?,?,?,?,?,?)";
+
+                cadenasql = "INSERT INTO usuario (id_usuario, nombre_completo, nombre_usuario, contrasena, correo_electronico, activo, descripcion, id_rol) VALUES (?,?,?,SHA2(?, 512),?,?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(cadenasql);
                 pstmt.setLong(1, id_usuario_max);
                 pstmt.setString(2, lista_usuario.get(i).getNombre_completo());
                 pstmt.setString(3, lista_usuario.get(i).getNombre_usuario());
                 pstmt.setString(4, lista_usuario.get(i).getContrasena());
+                
                 pstmt.setString(5, lista_usuario.get(i).getCorreo_electronico());
                 pstmt.setLong(6, lista_usuario.get(i).getActivo());
                 pstmt.setString(7, lista_usuario.get(i).getDescripcion());
-                pstmt.setLong(8, id_rol);
+                pstmt.setLong(8, lista_usuario.get(i).getRol().getId_rol());
                 
                 pstmt.executeUpdate();
                 pstmt.close();
@@ -137,7 +140,7 @@ public class Ctrl_Usuario implements Serializable {
         return resultado;
     }
     
-    public String modificar_usuario(String jsonString, Long id_rol, Connection conn) {
+    public String modificar_usuario(String jsonString, Connection conn) {
         String resultado = "";
         
         try {
@@ -156,7 +159,7 @@ public class Ctrl_Usuario implements Serializable {
                 stmt.setString(4, lista_usuario.get(i).getCorreo_electronico());
                 stmt.setLong(5, lista_usuario.get(i).getActivo());
                 stmt.setString(6, lista_usuario.get(i).getDescripcion());
-                stmt.setLong(7, id_rol);
+                stmt.setLong(7, lista_usuario.get(i).getRol().getId_rol());
                 stmt.setLong(8, lista_usuario.get(i).getId_usuario());
                 stmt.executeUpdate();
                 stmt.close();

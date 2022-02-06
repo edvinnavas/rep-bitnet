@@ -103,6 +103,17 @@ public class Ctrl_Rol implements Serializable {
                 pstmt.setString(4, lista_rol.get(i).getDescripcion());
                 pstmt.executeUpdate();
                 pstmt.close();
+                
+                for (Integer j = 0; j < lista_rol.get(i).getLst_control().size(); j++) {
+                    cadenasql = "INSERT INTO rol_aplicacion_control (id_rol, id_control, id_aplicacion) VALUES (?,?,?)";
+                    pstmt = conn.prepareStatement(cadenasql);
+                    pstmt.setLong(1, id_rol_max);
+                    pstmt.setLong(2, lista_rol.get(i).getLst_control().get(j).getId_control());
+                    pstmt.setLong(3, lista_rol.get(i).getLst_control().get(j).getAplicacion().getId_aplicacion());
+                    pstmt.executeUpdate();
+                    pstmt.close();
+                }
+                
             }
 
             conn.commit();
@@ -174,7 +185,7 @@ public class Ctrl_Rol implements Serializable {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Ctrl_Control ctrl_control = new Ctrl_Control();
-                Control control = ctrl_control.obtener_control(id_rol, conn);
+                Control control = ctrl_control.obtener_control(rs.getLong(1), conn);
                 resultado.add(control);
             }
             rs.close();

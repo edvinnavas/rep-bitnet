@@ -27,7 +27,7 @@ public class Ctrl_Control implements Serializable {
             PreparedStatement stmt = conn.prepareStatement(cadenasql);
             stmt.setLong(1, id_control);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Ctrl_Aplicacion ctrl_aplicacion = new Ctrl_Aplicacion();
                 resultado = new Control(rs.getLong(1), ctrl_aplicacion.obtener_aplicacion(rs.getLong(2), conn), rs.getString(3), rs.getLong(4), rs.getString(5));
             }
@@ -62,7 +62,7 @@ public class Ctrl_Control implements Serializable {
         return resultado;
     }
     
-    public String crear_control(String jsonString, Long id_aplicacion, Connection conn) {
+    public String crear_control(String jsonString, Connection conn) {
         String resultado = "";
         
         try {
@@ -86,7 +86,7 @@ public class Ctrl_Control implements Serializable {
                 cadenasql = "INSERT INTO control (id_control, id_aplicacion, nombre, activo, descrpicon) VALUES (?,?,?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(cadenasql);
                 pstmt.setLong(1, lista_control.get(i).getId_control());
-                pstmt.setLong(2, id_aplicacion);
+                pstmt.setLong(2, lista_control.get(i).getAplicacion().getId_aplicacion());
                 pstmt.setString(3, lista_control.get(i).getNombre());
                 pstmt.setLong(4, lista_control.get(i).getActivo());
                 pstmt.setString(5, lista_control.get(i).getDescripcion());
@@ -113,7 +113,7 @@ public class Ctrl_Control implements Serializable {
         return resultado;
     }
     
-    public String modificar_control(String jsonString, Long id_aplicacion, Connection conn) {
+    public String modificar_control(String jsonString, Connection conn) {
         String resultado = "";
         
         try {
@@ -126,7 +126,7 @@ public class Ctrl_Control implements Serializable {
             for (Integer i = 0; i < lista_control.size(); i++) {
                 String cadenasql = "UPDATE control SET id_aplicacion=?, nombre=?, activo=?, descripcion=? FROM control WHERE id_control=?";
                 PreparedStatement stmt = conn.prepareStatement(cadenasql);
-                stmt.setLong(1, id_aplicacion);
+                stmt.setLong(1, lista_control.get(i).getAplicacion().getId_aplicacion());
                 stmt.setString(2, lista_control.get(i).getNombre());
                 stmt.setLong(3, lista_control.get(i).getActivo());
                 stmt.setString(4, lista_control.get(i).getDescripcion());

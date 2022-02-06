@@ -209,22 +209,16 @@ public class Servicio implements Serializable {
     }
     
     @POST
-    @Path("crear_usuario/{id_rol}")
+    @Path("crear_usuario")
     @Produces({"text/plain"})
-    public String crear_usuario(String jsonString, @PathParam("id_rol") Long id_rol) {
+    public String crear_usuario(String jsonString) {
         String resultado = "";
         Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
         
         try {
             this.conn = ctrl_driver.Abrir_Conexion();
             Ctrl_Usuario ctrl_usuario = new Ctrl_Usuario();
-            Ctrl_Rol ctrl_rol = new Ctrl_Rol();
-            Rol rol = ctrl_rol.obtener_rol(id_rol, conn);
-            if (rol != null) {
-                resultado = ctrl_usuario.crear_usuario(jsonString, id_rol, conn);
-            } else {
-                resultado = "1,El rol no existe! por favor verifique el id de rol.";
-            }
+            resultado = ctrl_usuario.crear_usuario(jsonString, conn);
         } catch (Exception ex) {
             resultado = "1,ERROR: " + this.getClass().getName() + " METODO: crear_usuario MENSAJE: " + ex.getLocalizedMessage();
             System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: crear_usuario MENSAJE: " + ex.getLocalizedMessage());
@@ -245,13 +239,7 @@ public class Servicio implements Serializable {
         try {
             this.conn = ctrl_driver.Abrir_Conexion();
             Ctrl_Usuario ctrl_usuario = new Ctrl_Usuario();
-            Ctrl_Rol ctrl_rol = new Ctrl_Rol();
-            Rol rol = ctrl_rol.obtener_rol(id_rol, conn);
-            if (rol != null) {
-                resultado = ctrl_usuario.modificar_usuario(jsonString, id_rol, conn);
-            } else {
-                resultado = "1,El rol no existe! por favor verifique el id de rol.";
-            }
+            resultado = ctrl_usuario.modificar_usuario(jsonString, conn);
         } catch (Exception ex) {
             resultado = "1,ERROR: " + this.getClass().getName() + " METODO: modificar_usuario MENSAJE: " + ex.getLocalizedMessage();
             System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: modificar_usuario MENSAJE: " + ex.getLocalizedMessage());
@@ -434,20 +422,14 @@ public class Servicio implements Serializable {
     @POST
     @Path("crear_control/{id_aplicacion}")
     @Produces({"text/plain"})
-    public String crear_control(@PathParam("id_aplicacion") Long id_aplicacion) {
+    public String crear_control(String jsonString) {
         String resultado = "";
         Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
         
         try {
             this.conn = ctrl_driver.Abrir_Conexion();
             Ctrl_Control ctrl_control = new Ctrl_Control();
-            Ctrl_Aplicacion ctrl_aplicacion = new Ctrl_Aplicacion();
-            Aplicacion aplicacion = ctrl_aplicacion.obtener_aplicacion(id_aplicacion, conn);
-            if (aplicacion != null) {
-                resultado = ctrl_control.crear_control(resultado, id_aplicacion, conn);
-            } else {
-                resultado = "1,La aplicación no exists! por favor verifique los parametros.";
-            }
+            resultado = ctrl_control.crear_control(jsonString, conn);
         } catch (Exception ex) {
             resultado = "1,ERROR: " + this.getClass().getName() + " METODO: crear_control MENSAJE: " + ex.getLocalizedMessage();
             System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: crear_control MENSAJE: " + ex.getLocalizedMessage());
@@ -459,22 +441,16 @@ public class Servicio implements Serializable {
     }
     
     @PUT
-    @Path("modificar_control/{id_control}")
+    @Path("modificar_control")
     @Produces({"text/plain"})
-    public String modificar_control(@PathParam("id_control") Long id_aplicacion) {
+    public String modificar_control(String jsonString) {
         String resultado = "";
         Ctrl_Driver ctrl_driver = new Ctrl_Driver(JNDI_NAME);
         
         try {
             this.conn = ctrl_driver.Abrir_Conexion();
             Ctrl_Control ctrl_control = new Ctrl_Control();
-            Ctrl_Aplicacion ctrl_aplicacion = new Ctrl_Aplicacion();
-            Aplicacion aplicacion = ctrl_aplicacion.obtener_aplicacion(id_aplicacion, conn);
-            if (aplicacion != null) {
-                resultado = ctrl_control.modificar_control(resultado, id_aplicacion, conn);
-            } else {
-                resultado = "1,La aplicación no exists! por favor verifique los parametros.";
-            }
+            resultado = ctrl_control.crear_control(jsonString, conn);
         } catch (Exception ex) {
             resultado = "1,ERROR: " + this.getClass().getName() + " METODO: modificar_control MENSAJE: " + ex.getLocalizedMessage();
             System.out.println("1,ERROR: " + this.getClass().getName() + " METODO: modificar_control MENSAJE: " + ex.getLocalizedMessage());
