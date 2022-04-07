@@ -17,7 +17,6 @@ DROP TABLE IF EXISTS genero;
 CREATE TABLE genero (
 	id_genero BIGINT NOT NULL,
     nombre VARCHAR(500) NOT NULL,
-    descripcion TEXT,
     CONSTRAINT pk_genero PRIMARY KEY (id_genero)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
@@ -25,7 +24,6 @@ DROP TABLE IF EXISTS estado_civil;
 CREATE TABLE estado_civil (
 	id_estado_civil BIGINT NOT NULL,
     nombre VARCHAR(500) NOT NULL,
-    descripcion TEXT,
     CONSTRAINT pk_estado_civil PRIMARY KEY (id_estado_civil)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
@@ -33,7 +31,6 @@ DROP TABLE IF EXISTS nacionalidad;
 CREATE TABLE nacionalidad (
 	id_nacionalidad BIGINT NOT NULL,
     nombre VARCHAR(500) NOT NULL,
-    descripcion TEXT,
     CONSTRAINT pk_nacionalidad PRIMARY KEY (id_nacionalidad)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
@@ -41,7 +38,6 @@ DROP TABLE IF EXISTS area_codigo_resultado;
 CREATE TABLE area_codigo_resultado (
 	id_area_codigo_resultado BIGINT NOT NULL,
     nombre VARCHAR(500) NOT NULL,
-    descripcion TEXT,
     CONSTRAINT pk_area_codigo_resultado PRIMARY KEY (id_area_codigo_resultado)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
@@ -49,7 +45,6 @@ DROP TABLE IF EXISTS registro_codigo_resultado;
 CREATE TABLE registro_codigo_resultado (
 	id_registro_codigo_resultado BIGINT NOT NULL,
     nombre VARCHAR(500) NOT NULL,
-    descripcion TEXT,
     CONSTRAINT pk_registro_codigo_resultado PRIMARY KEY (id_registro_codigo_resultado)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
@@ -71,29 +66,21 @@ CREATE TABLE pais (
 DROP TABLE IF EXISTS departamento;
 CREATE TABLE departamento (
 	id_departamento BIGINT NOT NULL,
-    id_pais BIGINT NOT NULL,
     nombre VARCHAR(200) NOT NULL,
-    CONSTRAINT pk_departamento PRIMARY KEY (id_departamento),
-    CONSTRAINT fk_departamento_1 FOREIGN KEY (id_pais) REFERENCES pais (id_pais)
+    CONSTRAINT pk_departamento PRIMARY KEY (id_departamento)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
 DROP TABLE IF EXISTS municipio;
 CREATE TABLE municipio (
 	id_municipio BIGINT NOT NULL,
-    id_departamento BIGINT NOT NULL,
     nombre VARCHAR(200) NOT NULL,
-    CONSTRAINT pk_municipio PRIMARY KEY (id_municipio),
-    CONSTRAINT fk_municipio_1 FOREIGN KEY (id_departamento) REFERENCES departamento (id_departamento)
+    CONSTRAINT pk_municipio PRIMARY KEY (id_municipio)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
 DROP TABLE IF EXISTS profesion;
 CREATE TABLE profesion (
 	id_profesion BIGINT NOT NULL,
     nombre VARCHAR(500) NOT NULL,
-    activo SMALLINT NOT NULL,
-    descripcion TEXT,
-    fecha_hora_modificacion TIMESTAMP NOT NULL,
-    usuario_modificacion VARCHAR(100) NOT NULL,
     CONSTRAINT pk_profesion PRIMARY KEY (id_profesion)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
@@ -108,11 +95,11 @@ CREATE TABLE deudor (
     segundo_apellido VARCHAR(50),
     dpi BIGINT,
     nit BIGINT,
-    id_genero BIGINT NOT NULL,
     fecha_nacimiento DATE,
+    id_genero BIGINT NOT NULL,
     id_estado_civil BIGINT NOT NULL,
-    id_profesion BIGINT NOT NULL,
     id_nacionalidad BIGINT NOT NULL,
+    id_profesion BIGINT NOT NULL,
     descripcion TEXT,
     fecha_hora_modificacion TIMESTAMP NOT NULL,
     usuario_modificacion VARCHAR(100) NOT NULL,
@@ -144,6 +131,7 @@ CREATE TABLE libreta_correo_electronico_deudor (
 	id_libreta_correo_electronico_deudor BIGINT NOT NULL,
 	id_deudor BIGINT NOT NULL,
     correo_electronico VARCHAR(200) NOT NULL,
+    principal SMALLINT NOT NULL,
     descripcion TEXT,
     fecha_hora_modificacion TIMESTAMP NOT NULL,
     usuario_modificacion VARCHAR(100) NOT NULL,
@@ -155,15 +143,96 @@ DROP TABLE IF EXISTS libreta_direcciones_deudor;
 CREATE TABLE libreta_direcciones_deudor (
 	id_libreta_direcciones_deudor BIGINT NOT NULL,
 	id_deudor BIGINT NOT NULL,
+    id_pais BIGINT NOT NULL,
+    id_departamento BIGINT NOT NULL,
     id_municipio BIGINT NOT NULL,
     zona SMALLINT NOT NULL,
     direccion TEXT NOT NULL,
+    principal SMALLINT NOT NULL,
     descripcion TEXT,
     fecha_hora_modificacion TIMESTAMP NOT NULL,
     usuario_modificacion VARCHAR(100) NOT NULL,
     CONSTRAINT pk_libreta_direcciones_deudor PRIMARY KEY (id_libreta_direcciones_deudor),
     CONSTRAINT fk_libreta_direcciones_deudor_1 FOREIGN KEY (id_deudor) REFERENCES deudor (id_deudor),
-    CONSTRAINT fk_libreta_direcciones_deudor_2 FOREIGN KEY (id_municipio) REFERENCES municipio (id_municipio)
+    CONSTRAINT fk_libreta_direcciones_deudor_2 FOREIGN KEY (id_pais) REFERENCES pais (id_pais),
+    CONSTRAINT fk_libreta_direcciones_deudor_3 FOREIGN KEY (id_departamento) REFERENCES departamento (id_departamento),
+    CONSTRAINT fk_libreta_direcciones_deudor_4 FOREIGN KEY (id_municipio) REFERENCES municipio (id_municipio)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
+DROP TABLE IF EXISTS lugares_trabajo_deudor;
+CREATE TABLE lugares_trabajo_deudor (
+	id_lugares_trabajo_deudor BIGINT NOT NULL,
+	id_deudor BIGINT NOT NULL,
+    nombre_empresa VARCHAR(200) NOT NULL,
+    principal SMALLINT NOT NULL,
+    descripcion TEXT,
+    fecha_hora_modificacion TIMESTAMP NOT NULL,
+    usuario_modificacion VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_lugares_trabajo_deudor PRIMARY KEY (id_lugares_trabajo_deudor),
+    CONSTRAINT fk_lugares_trabajo_deudor_1 FOREIGN KEY (id_deudor) REFERENCES deudor (id_deudor)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
+DROP TABLE IF EXISTS libreta_direcciones_trabajo;
+CREATE TABLE libreta_direcciones_trabajo (
+	id_libreta_direcciones_trabajo BIGINT NOT NULL,
+	id_lugares_trabajo_deudor BIGINT NOT NULL,
+    id_pais BIGINT NOT NULL,
+    id_departamento BIGINT NOT NULL,
+    id_municipio BIGINT NOT NULL,
+    zona SMALLINT NOT NULL,
+    direccion TEXT NOT NULL,
+    principal SMALLINT NOT NULL,
+    descripcion TEXT,
+    fecha_hora_modificacion TIMESTAMP NOT NULL,
+    usuario_modificacion VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_libreta_direcciones_trabajo PRIMARY KEY (id_libreta_direcciones_trabajo),
+    CONSTRAINT fk_libreta_direcciones_trabajo_1 FOREIGN KEY (id_lugares_trabajo_deudor) REFERENCES lugares_trabajo_deudor (id_lugares_trabajo_deudor),
+    CONSTRAINT fk_libreta_direcciones_trabajo_2 FOREIGN KEY (id_pais) REFERENCES pais (id_pais),
+    CONSTRAINT fk_libreta_direcciones_trabajo_3 FOREIGN KEY (id_departamento) REFERENCES departamento (id_departamento),
+    CONSTRAINT fk_libreta_direcciones_trabajo_4 FOREIGN KEY (id_municipio) REFERENCES municipio (id_municipio)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
+DROP TABLE IF EXISTS listado_contactos_trabajo;
+CREATE TABLE listado_contactos_trabajo (
+	id_listado_contactos_trabajo BIGINT NOT NULL,
+	id_lugares_trabajo_deudor BIGINT NOT NULL,
+    nombre_contacto VARCHAR(200) NOT NULL,
+    puesto_contacto VARCHAR(200) NOT NULL,
+    principal SMALLINT NOT NULL,
+    descripcion TEXT,
+    fecha_hora_modificacion TIMESTAMP NOT NULL,
+    usuario_modificacion VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_listado_contactos_trabajo PRIMARY KEY (id_listado_contactos_trabajo),
+    CONSTRAINT fk_listado_contactos_trabajo_1 FOREIGN KEY (id_lugares_trabajo_deudor) REFERENCES lugares_trabajo_deudor (id_lugares_trabajo_deudor)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
+DROP TABLE IF EXISTS directorio_telefonico_contactos_trabajo;
+CREATE TABLE directorio_telefonico_contactos_trabajo (
+	id_directorio_telefonico_contactos_trabajo BIGINT NOT NULL,
+	id_listado_contactos_trabajo BIGINT NOT NULL,
+    id_tipo_telefono BIGINT NOT NULL,
+    codigo_area INTEGER,
+    numero_telefonico BIGINT NOT NULL,
+    principal SMALLINT NOT NULL,
+    descripcion TEXT,
+    fecha_hora_modificacion TIMESTAMP NOT NULL,
+    usuario_modificacion VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_directorio_telefonico_contactos_trabajo PRIMARY KEY (id_directorio_telefonico_contactos_trabajo),
+    CONSTRAINT fk_directorio_telefonico_contactos_trabajo_1 FOREIGN KEY (id_listado_contactos_trabajo) REFERENCES listado_contactos_trabajo (id_listado_contactos_trabajo),
+    CONSTRAINT fk_directorio_telefonico_contactos_trabajo_2 FOREIGN KEY (id_tipo_telefono) REFERENCES tipo_telefono (id_tipo_telefono)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
+DROP TABLE IF EXISTS libreta_correo_electronico_contactos_trabajo;
+CREATE TABLE libreta_correo_electronico_contactos_trabajo (
+	id_libreta_correo_electronico_contactos_trabajo BIGINT NOT NULL,
+	id_listado_contactos_trabajo BIGINT NOT NULL,
+    correo_electronico VARCHAR(200) NOT NULL,
+    principal SMALLINT NOT NULL,
+    descripcion TEXT,
+    fecha_hora_modificacion TIMESTAMP NOT NULL,
+    usuario_modificacion VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_libreta_correo_electronico_contactos_trabajo PRIMARY KEY (id_libreta_correo_electronico_contactos_trabajo),
+    CONSTRAINT fk_libreta_correo_electronico_contactos_trabajo_1 FOREIGN KEY (id_listado_contactos_trabajo) REFERENCES listado_contactos_trabajo (id_listado_contactos_trabajo)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
 DROP TABLE IF EXISTS corporacion;
@@ -451,6 +520,7 @@ CREATE TABLE convenio (
     id_expediente BIGINT NOT NULL,
     id_tipo_convenio BIGINT NOT NULL,
     id_estado_convenio BIGINT NOT NULL,
+    id_frecuencia_convenio BIGINT NOT NULL,
     saldo_actual DOUBLE NOT NULL,
     interes DOUBLE NOT NULL,
     mora DOUBLE NOT NULL,
@@ -464,7 +534,6 @@ CREATE TABLE convenio (
     total_pagar DOUBLE NOT NULL,
     fecha_pago_inicial DATE NOT NULL,
     numero_cuotas INTEGER NOT NULL,
-    id_frecuencia_convenio BIGINT NOT NULL,
     monto_cuota DOUBLE NOT NULL,
     fecha_creacion TIMESTAMP NOT NULL,
     fecha_activacion TIMESTAMP,
@@ -666,7 +735,7 @@ INSERT INTO convenio_historial (id_convenio_historial, id_convenio, id_estado_co
 
 INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (1, 'PENDIENTE', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
 INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (2, 'CUMPLIDO', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
-INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (1, 'INCUMPLIDO', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
+INSERT INTO estado_promesa_pago (id_estado_promesa_pago, nombre, activo, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (3, 'INCUMPLIDO', 1, 'Estado Promesa de Pago creado por el sistema.', NOW(), 'SYSTEM');
 
 INSERT INTO promesa_pago (id_promesa_pago, id_convenio, id_estado_promesa_pago, fecha_pago, monto_pago, descripcion, fecha_hora_modificacion, usuario_modificacion) VALUES (1, 1, 1, CURDATE(), 23456.78, 'Promesa de Pago creada de prueba.', NOW(), 'SYSTEM');
 
@@ -718,5 +787,5 @@ SELECT epp.* FROM estado_promesa_pago epp;
 SELECT pp.* FROM promesa_pago pp;
 SELECT pph.* FROM promesa_pago_historial pph;
 
-commit;
+COMMIT;
 
